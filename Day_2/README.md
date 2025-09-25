@@ -69,7 +69,6 @@ abc -liberty /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib {This links design file 
 show (module name){if multiple modules}
 ```
 
-**Example:**
 ![](Images/hierar.png)
 
 
@@ -100,7 +99,6 @@ flatten
 show (module name){if multiple modules}
 ```
 
-**Example:**
 ![](Images/flatten.png)
 
 > **Important:** Hierarchical synthesis maintains sub-modules in the design, while flattening produces a netlist from the ground up.
