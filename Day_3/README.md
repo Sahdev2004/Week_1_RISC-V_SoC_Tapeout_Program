@@ -89,7 +89,7 @@ Follow the steps from Day 1 Synthesis Lab and add the following between `abc -li
 opt_clean -purge
 ```
 
-![](Images/chk)
+![](Images/chk.png)
 
 ---
 
@@ -108,7 +108,7 @@ endmodule
   - `y = 1` if `a` is true.
   - `y = b` if `a` is false.
 
-![](Images/chk2)
+![](Images/chk2.png)
 
 ---
 
@@ -125,7 +125,7 @@ endmodule
 **Functionality:**  
 2-to-1 multiplexer; `y = a ? 1 : b` (outputs `1` when `a` is true, otherwise `b`).
 
-![](Images/chk3)
+![](Images/chk3.png)
 
 ---
 
@@ -147,7 +147,7 @@ module opt_check4 (input a , input b , input c , output y);
 - Logic simplifies to:  
   `y = a ? c : !c`
 
-![](Images/chk4)
+![](Images/chk4.png)
 
 ---
 
