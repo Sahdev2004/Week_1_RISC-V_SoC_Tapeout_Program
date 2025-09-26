@@ -15,7 +15,6 @@ To follow along with this workshop, you'll need a foundational understanding of 
 * **GTKWave:** For visualizing waveforms and debugging simulations.
 * **Yosys:** The open-source synthesis tool that transforms RTL into gate-level netlists.
 * **SKY130 PDK:** The technology library used for synthesis.
-* **Git:** For version control.
 
 ---
 
