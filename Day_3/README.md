@@ -378,5 +378,5 @@ endmodule
   4. **Retiming:** Repositioning registers in a circuit to enhance performance without altering its function.
 
 - **Labs:** Six practical Verilog labs illustrate these concepts, including examples of combinational logic optimizations and D flip-flop behaviors, each with code snippets and output images.
-
+- **Tasks:** Five tasks given as home assignments two are from multiple modules files and three are from dff files.
 
