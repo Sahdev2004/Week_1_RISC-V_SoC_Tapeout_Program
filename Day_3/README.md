@@ -172,7 +172,7 @@ endmodule
   - Asynchronous reset to 0
   - Loads constant `1` when not in reset
 
-![Lab 5 Output](https://github.com/user-attachments/assets/a42fac06-a092-4efc-be39-33b263caaaa1)
+![](Images/dff1)
 
 ---
 
@@ -195,7 +195,176 @@ endmodule
 **Functionality:**
 - D flip-flop always sets output `q` to `1` (regardless of reset or clock).
 
-![Lab 6 Output](https://github.com/user-attachments/assets/ae45f7db-0a7f-4256-b43b-01cc4a1588f7)
+![](Images/dff2)
+
+---
+
+### Task 1
+
+
+Verilog code:
+
+```verilog
+module dff_const3(input clk, input reset, output reg q);
+reg q1;
+
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+	begin
+		q <= 1'b1;
+		q1 <= 1'b0;
+	end
+	else
+	begin
+		q1 <= 1'b1;
+		q <= q1;
+	end
+end
+
+endmodule
+```
+**Functionality:**
+ - Asynchronous Reset (reset = 1): The reset is dominant and active-high. It sets output q to 1 and register q1 to 0 immediately.
+ - Synchronous Operation (reset = 0): On the positive clock edge, q1 is loaded with 1 and q is loaded with q1's old value.
+ - Output Behavior: After the reset is released, the q output goes through a sequence of 1 → 0 → 1 over two clock cycles before stabilizing at 1.
+
+![](Images/dff3.png)
+
+---
+
+### Task 2
+
+
+Verilog code:
+
+```verilog
+module dff_const4(input clk, input reset, output reg q);
+reg q1;
+
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+	begin
+		q <= 1'b1;
+		q1 <= 1'b1;
+	end
+	else
+	begin
+		q1 <= 1'b1;
+		q <= q1;
+	end
+end
+
+endmodule
+```
+**Functionality:**
+ - Asynchronous Reset (reset = 1): The dominant, active-high reset sets both q and q1 to 1.
+ - Synchronous Operation (reset = 0): On the positive clock edge, q1 is loaded with 1, and q is loaded with q1's value.
+ - Output Behavior: q remains at 1 at all times, as both the reset and synchronous operations load it with a 1.
+
+![](Images/dff4.png)
+
+---
+
+### Task 3
+
+
+Verilog code:
+
+```verilog
+module dff_const5(input clk, input reset, output reg q);
+reg q1;
+
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+	begin
+		q <= 1'b0;
+		q1 <= 1'b0;
+	end
+	else
+	begin
+		q1 <= 1'b1;
+		q <= q1;
+	end
+end
+
+endmodule
+```
+**Functionality:**
+ - Asynchronous Reset (reset = 1): The dominant, active-high reset sets both q and q1 to 0.
+ - Synchronous Operation (reset = 0): On the positive clock edge, q1 is loaded with 1, and q is loaded with q1's old value.
+ - Output Behavior: After reset, q takes two clock cycles to transition from its reset value of 0 to the final steady state of 1, following a sequence of 0 → 0 → 1.
+
+![](Images/dff5.png)
+
+---
+
+### Task 4
+
+
+Verilog code:
+
+```verilog
+module sub_module(input a , input b , output y);
+ assign y = a & b;
+endmodule
+
+
+
+module multiple_module_opt2(input a , input b , input c , input d , output y);
+wire n1,n2,n3;
+
+sub_module U1 (.a(a) , .b(1'b0) , .y(n1));
+sub_module U2 (.a(b), .b(c) , .y(n2));
+sub_module U3 (.a(n2), .b(d) , .y(n3));
+sub_module U4 (.a(n3), .b(n1) , .y(y));
+
+
+endmodule
+```
+**Functionality:**
+ - Instance U1: The inputs are a and 1'b0. Since anything ANDed with 0 is 0, the output n1 is always 0 (n1 = a & 1'b0 = 0).
+ - Instance U2: The inputs are b and c. The output n2 is the logical AND of these two inputs (n2 = b & c).
+ - Instance U3: The inputs are n2 and d. The output n3 is the logical AND of n2 and d (n3 = n2 & d = (b & c) & d).
+ - Instance U4: The inputs are n3 and n1. The output y is the logical AND of these two (y = n3 & n1 = (b & c & d) & 0).
+
+![](Images/mmopt.png)
+
+---
+
+### Task 5
+
+
+Verilog code:
+
+```verilog
+module sub_module1(input a , input b , output y);
+ assign y = a & b;
+endmodule
+
+module sub_module2(input a , input b , output y);
+ assign y = a^b;
+endmodule
+
+module multiple_module_opt(input a , input b , input c , input d , output y);
+wire n1,n2,n3;
+
+sub_module1 U1 (.a(a) , .b(1'b1) , .y(n1));
+sub_module2 U2 (.a(n1), .b(1'b0) , .y(n2));
+sub_module2 U3 (.a(b), .b(d) , .y(n3));
+
+assign y = c | (b & n1); 
+
+endmodule
+```
+**Functionality:**
+ - The circuit calculates the logical expression y = c | (a & b).
+ - sub_module1 (U1) acts as a pass-through for input a to wire n1 (a & 1).
+ - sub_module2 (U2 and U3) are instantiated, but their outputs (n2 and n3) are not used in the final expression for y. These parts of the circuit are redundant.
+
+![](Images/mmopt2.png)
 
 ---
 
